@@ -1,25 +1,6 @@
 #include <iostream>
+#include "hashinganalysis.h"
 using namespace std;
-
-template<class T>
-class Node {
-public:
-	T data;
-	Node<T> * next;
-};
-
-template <class T>
-class LinkedList{
-private:
-	Node<T> * head;
-	Node<T> * tail;
-public:
-	void insertEnd(T value);
-	void insert(int index, T value);
-	void edit(int index, T value);
-	void remove(int index);
-	void print();
-};
 
 template <class T> void LinkedList<T>::print(){
 	Node <T> * temp = head;
@@ -30,7 +11,46 @@ template <class T> void LinkedList<T>::print(){
 	cout << "NULL\n";
 }
 
+template <class K, class V> HashNode<K,V>::HashNode(K key, V value){
+	this->value = value;
+	this->key = key;
+}
 
+template <class K, class V> HashMap<K,V>::HashMap(int capacity, int size){
+	this->capacity = capacity;
+	this->size = size;
+	map = new HashNode<K,V>*[capacity];
+
+	for(int i=0 ; i < capacity ; i++)
+		map[i] = NULL;
+}
+
+template <class K, class V> int HashMap<K,V>::hashCode(K key){
+	return 0;
+}
+
+template <class K, class V> void HashMap<K,V>::insertNode(K key, V value){
+	;
+}
+
+template <class K, class V> V HashMap<K,V>::get(K key){
+	;
+}
+
+template <class K, class V> int HashMap<K,V>::mapSize(){
+	return size;
+}
+
+template <class K, class V> bool HashMap<K,V>::isEmpty(){
+	return size == 0;
+}
+
+template <class K, class V> void HashMap<K,V>::display(){
+	for(int i = 0; i < capacity ; i++) {
+		if(map[i] != NULL && map[i]->key != -1)
+			cout << "key = " << map[i]->key << "  value = " << map[i]->value << endl;
+	}
+}
 
 
 int main(){
