@@ -21,11 +21,10 @@ public:
 
 template<typename K, typename V>
 class HashNode {
-private:
-    V value;
-    K key;
 public:
     HashNode(K key, V value);
+    V value;
+    K key;
 };
 
 template<typename K, typename V>
@@ -37,12 +36,14 @@ private:
     int size;
 public:
     HashMap(int capacity, int size);
-    int hashCode(K key);
-    void insertNode(K key, V value);
+    int midSquareHash(K key);
+    int keyModTableSize(K key);
+    int insertNodeOpenAddressing(K key, V value);
     V get(K key);
     int mapSize();
     bool isEmpty();
     void display();
+    void generate();
 };
 
 #endif
