@@ -1,5 +1,7 @@
 #include <iostream>
 #include "hashinganalysis.h"
+#include <math.h>
+#include <string>
 using namespace std;
 
 int randomFrom(int min, int max){ // Helper function courtesy of stackoverflow
@@ -12,6 +14,9 @@ int randomFrom(int min, int max){ // Helper function courtesy of stackoverflow
     return min + x % n;
 }
 
+int toInt(string numStr){
+	return numStr[0] - '0';
+}
 
 template <class T> void LinkedList<T>::print(){
 	Node <T> * temp = head;
@@ -37,7 +42,20 @@ template <class K, class V> HashMap<K,V>::HashMap(int capacity, int size){
 }
 
 template <class K, class V> int HashMap<K,V>::midSquareHash(K key){
-	return key *= key;
+	key *= key;
+	string digits = to_string(key);
+	int start = ceil((double)digits.size()/4);
+	int desiredLength = ceil((double)digits.size()/2);
+
+	cout << start << endl;
+	cout << digits << endl;
+
+	if (digits.size() > 2)
+		digits = digits.substr(start, desiredLength);
+
+	cout << digits << endl;
+
+	return toInt(digits);
 }
 
 template <class K, class V> int HashMap<K,V>::keyModTableSize(K key){
@@ -96,6 +114,6 @@ template <class K, class V> void HashMap<K,V>::display(){
 
 int main(){
 	HashMap <int,int> * map = new HashMap<int,int>(100,0);
-	map->generate();
+	map->midSquareHash(476);
 	return 0;
 ;}
