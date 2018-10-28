@@ -32,18 +32,20 @@ class HashMap
 {
 private:
     HashNode<K,V> **map;
-    int capacity;
-    int size;
+    int tableSize;
+    int currSize;
 public:
-    HashMap(int capacity, int size);
+    HashMap(int tableSize, int currSize);
     int midSquareHash(K key);
     int keyModTableSize(K key);
-    int insertNodeOpenAddressing(K key, V value);
+    int insertNodeOA(K key, V value, bool midSquare);
     V get(K key);
     int mapSize();
+    void setTableSize(int tableSize);
+    void clear();
     bool isEmpty();
     void display();
-    void generate();
+    void generateOA(bool midSquare);
 };
 
 #endif

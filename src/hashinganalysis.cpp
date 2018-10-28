@@ -8,9 +8,8 @@ int randomFrom(int min, int max){ // Helper function courtesy of stackoverflow
     int n = max - min + 1;		  // Unbiased random number generation with no library.
     int remainder = RAND_MAX % n;
     int x;
-    do{
-        x = rand();
-    }while (x >= RAND_MAX - remainder);
+    do{ x = rand(); }
+    while (x >= RAND_MAX - remainder);
     return min + x % n;
 }
 
@@ -32,50 +31,46 @@ template <class K, class V> HashNode<K,V>::HashNode(K key, V value){
 	this->key = key;
 }
 
-template <class K, class V> HashMap<K,V>::HashMap(int capacity, int size){
-	this->capacity = capacity;
-	this->size = size;
-	map = new HashNode<K,V>*[capacity];
+template <class K, class V> HashMap<K,V>::HashMap(int tableSize, int currSize){
+	this->tableSize = tableSize;
+	this->currSize = currSize;
+	map = new HashNode<K,V>*[tableSize];
 
-	for(int i=0 ; i < capacity ; i++)
+	for(int i = 0 ; i < tableSize ; i++)
 		map[i] = NULL;
 }
 
 template <class K, class V> int HashMap<K,V>::midSquareHash(K key){
 	key *= key;
 	string digits = to_string(key);
-	int start = ceil((double)digits.size()/4);
-	int desiredLength = ceil((double)digits.size()/2);
-
-	cout << start << endl;
-	cout << digits << endl;
 
 	if (digits.size() > 2)
-		digits = digits.substr(start, desiredLength);
-
-	cout << digits << endl;
+		digits = digits.substr(1, digits.size()-2);
 
 	return toInt(digits);
 }
 
 template <class K, class V> int HashMap<K,V>::keyModTableSize(K key){
-	return key % capacity;
+	return key % tableSize;
 }
 
-template <class K, class V> int HashMap<K,V>::insertNodeOpenAddressing(K key, V value){
+template <class K, class V> int HashMap<K,V>::insertNodeOA(K key, V value, bool midSquare){
 	HashNode<K,V> *temp = new HashNode<K,V>(key, value);
-	int hashIndex = keyModTableSize(key);
+	int hashIndex = 0;
+	if(midSquare)
+		hashIndex = midSquareHash(key);
+	else
+		hashIndex = keyModTableSize(key);
 	int collisions = 0;
-
 	//find next free space
 	while(map[hashIndex] != NULL && map[hashIndex]->key != key && map[hashIndex]->key != -1){
 		hashIndex++;
-		hashIndex %= capacity;
+		hashIndex %= tableSize;
 		collisions++;
 	}
 
 	if(map[hashIndex] == NULL || map[hashIndex]->key == -1)
-		size++;
+		currSize++;
 	map[hashIndex] = temp;
 	return collisions;
 }
@@ -84,36 +79,81 @@ template <class K, class V> V HashMap<K,V>::get(K key){
 	;
 }
 
-template <class K, class V> bool HashMap<K,V>::isEmpty(){
-	return size == 0;
+template <class K, class V> void HashMap<K,V>::setTableSize(int tableSize){
+	this->tableSize = tableSize;
+	for(int i = 0 ; i < tableSize ; i++)
+		map[i] = NULL;
 }
 
-template <class K, class V> void HashMap<K,V>::generate(){
+template <class K, class V> bool HashMap<K,V>::isEmpty(){
+	return currSize == 0;
+}
+
+template <class K, class V> void HashMap<K,V>::clear(){
+	int count = 0;
+	while(!isEmpty()){
+		map[count] = NULL;
+		delete map[count];
+		currSize--;
+		count++;
+	}
+}
+
+template <class K, class V> void HashMap<K,V>::generateOA(bool midSquare){
 	double loadFactor = 0.0;
 	int collisions = 0;
-	for(int i = 0; i < capacity; i++){
-		int k = randomFrom(0, 3 * capacity);
-		collisions += insertNodeOpenAddressing(k,i);
-		loadFactor = (double)size/capacity;
-		/*for(int i = 0; i < capacity ; i++) {
-			if(map[i] != NULL && map[i]->key != -1)
-				cout << "key = " << map[i]->key << "  value = " << map[i]->value << endl;
-		}*/
-		cout << collisions << endl << loadFactor << endl << endl;
+	int insertions = 0;
+	while(currSize < tableSize){
+		int k = randomFrom(0, 3 * tableSize);
+		collisions += insertNodeOA(k,insertions,midSquare);
+		loadFactor = (double)currSize/(double)tableSize;
+		cout << "Total Collisions: " << collisions << " " << endl << "Load Factor: " << loadFactor << " " << endl << "Current Size: " << currSize << "\n\n";
+		insertions++;
 	}
+	//cout << "Insertions: " << insertions-1 << "\n\n";
 }
-
 
 template <class K, class V> void HashMap<K,V>::display(){
-	for(int i = 0; i < capacity ; i++) {
+	for(int i = 0; i < tableSize ; i++) {
 		if(map[i] != NULL && map[i]->key != -1)
-			cout << "key = " << map[i]->key << "  value = " << map[i]->value << endl;
+			cout << "key = " << map[i]->key << "  value = " << map[i]->value << "\n";
+		else
+			cout << "Empty" << endl;
 	}
+	cout << endl;
 }
 
-
 int main(){
-	HashMap <int,int> * map = new HashMap<int,int>(100,0);
-	map->midSquareHash(476);
+	bool midSquare = true;
+	HashMap <int,int> * map1 = new HashMap<int,int>(15,0);
+
+	map1->generateOA(midSquare);
+	map1->display();
+	map1->clear();
+
+	map1->setTableSize(20);
+	map1->generateOA(midSquare);
+	map1->display();
+	map1->clear();
+
+	map1->setTableSize(25);
+	map1->generateOA(midSquare);
+	map1->display();
+	map1->clear();
+
+	map1->setTableSize(15);
+	map1->generateOA(!midSquare);
+	map1->display();
+	map1->clear();
+
+	map1->setTableSize(20);
+	map1->generateOA(!midSquare);
+	map1->display();
+	map1->clear();
+
+	map1->setTableSize(25);
+	map1->generateOA(!midSquare);
+	map1->display();
+	map1->clear();
 	return 0;
 ;}
