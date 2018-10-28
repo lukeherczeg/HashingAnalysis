@@ -39,13 +39,17 @@ public:
     int midSquareHash(K key);
     int keyModTableSize(K key);
     int insertNodeOA(K key, V value, bool midSquare);
-    V get(K key);
     int mapSize();
     void setTableSize(int tableSize);
     void clear();
     bool isEmpty();
     void display();
+    void MSOA();
+    void MTOA();
+    void MSSC();
+    void MTSC();
     void generateOA(bool midSquare);
+    V get(K key);
 };
 
 #endif

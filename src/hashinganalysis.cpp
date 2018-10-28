@@ -123,37 +123,62 @@ template <class K, class V> void HashMap<K,V>::display(){
 	cout << endl;
 }
 
+template <class K, class V> void HashMap<K,V>::MSOA(){ // MidSquare Hashing with Open Addressing
+	bool midSquare = true;
+	this->generateOA(midSquare); // MidSquare hashing test 1
+	this->display();
+	this->clear();
+
+	this->setTableSize(20);
+	this->generateOA(midSquare); // MidSquare hashing test 2
+	this->display();
+	this->clear();
+
+	this->setTableSize(25);
+	this->generateOA(midSquare); // MidSquare hashing test 3
+	this->display();
+	this->clear();
+}
+
+template <class K, class V> void HashMap<K,V>::MTOA(){ // Mod TableSize Hashing with Open Addressing
+	bool midSquare = true;
+	this->setTableSize(15);
+	this->generateOA(!midSquare); // Mod TableSize hashing test 1
+	this->display();
+	this->clear();
+
+	this->setTableSize(20);
+	this->generateOA(!midSquare); // Mod TableSize hashing test 2
+	this->display();
+	this->clear();
+
+	this->setTableSize(25);
+	this->generateOA(!midSquare); // Mod TableSize hashing test 3
+	this->display();
+	this->clear();
+}
+
+template <class K, class V> void HashMap<K,V>::MSSC(){}
+
+template <class K, class V> void HashMap<K,V>::MTSC(){}
+
 int main(){
 	bool midSquare = true;
 	HashMap <int,int> * map1 = new HashMap<int,int>(15,0);
 
-	map1->generateOA(midSquare);
-	map1->display();
-	map1->clear();
 
-	map1->setTableSize(20);
-	map1->generateOA(midSquare);
-	map1->display();
-	map1->clear();
+	// MidSquare Hashing with Open Addressing
+	map1->MSOA();
 
-	map1->setTableSize(25);
-	map1->generateOA(midSquare);
-	map1->display();
-	map1->clear();
 
-	map1->setTableSize(15);
-	map1->generateOA(!midSquare);
-	map1->display();
-	map1->clear();
+	// Mod TableSize Hashing with Open Addressing
+	map1->MTOA();
 
-	map1->setTableSize(20);
-	map1->generateOA(!midSquare);
-	map1->display();
-	map1->clear();
+	// MidSquare Hashing with Separate Chaining
 
-	map1->setTableSize(25);
-	map1->generateOA(!midSquare);
-	map1->display();
-	map1->clear();
+
+	// Mod TableSize Hashing with Separate Chaining
+
+
 	return 0;
 ;}
