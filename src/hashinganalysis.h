@@ -1,55 +1,48 @@
 #ifndef HASHINGANALYSIS_H_
 #define HASHINGANALYSIS_H_
 
-template<class T>
-class Node {
-public:
-	T data;
-	Node<T> * next;
-};
-
-template <class T>
-class LinkedList{
-private:
-	Node<T> * head;
-	Node<T> * tail;
-public:
-	void insertEnd(T value);
-	void remove(int index);
-	void print();
-};
-
 template<typename K, typename V>
-class HashNode {
+class HashNodeOA {
 public:
-    HashNode(K key, V value);
+    HashNodeOA(K key, V value);
     V value;
     K key;
 };
 
 template<typename K, typename V>
-class HashMap
+class HashMapOA
 {
 private:
-    HashNode<K,V> **map;
+    HashNodeOA<K,V> **map;
     int tableSize;
     int currSize;
 public:
-    HashMap(int tableSize, int currSize);
-    int midSquareHash(K key);
-    int keyModTableSize(K key);
-    int insertNodeOA(K key, V value, bool midSquare);
-    int mapSize();
+    HashMapOA(int tableSize);
+    int insertNode(K key, V value, bool midSquare);
     void setTableSize(int tableSize);
     void clear();
-    bool isEmpty();
     void display();
-    void MSOA();
-    void MTOA();
-    void MSSC();
-    void MTSC();
-    void generateOA(bool midSquare);
-    V get(K key);
+    void MS(); // Mid Square
+    void MT(); // Mod Table
+    void generate(bool midSquare);
+    bool isEmpty();
+};
+
+class HashMapSC
+{
+private:
+	list<int> *map;
+	int tableSize;
+	int currSize;
+public:
+    HashMapSC(int tableSize);  // Constructor
+	int insertNode(int key, bool midSquare);
+	void setTableSize(int tableSize);
+	void clear();
+	void display();
+	void MS(); // Mid Square
+	void MT(); // Mod Table
+	void generate(bool midSquare);
 };
 
 #endif
