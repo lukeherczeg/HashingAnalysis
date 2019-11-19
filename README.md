@@ -1,7 +1,7 @@
-## COP3530: Data Structures
+# Hashing Analysis
 
 
-### Introduction
+## Introduction
 -------------------------------------------------------------------------------
 For this assignment, I decided to implement two different classes of hash tables, both in C++, one a templated version which was used for the open addressing part of the experiment, and one with the C++ list library to complete separate chaining. It was interesting seeing and getting a more significant understanding about the various strengths and weaknesses of each algorithm and collision resolution scheme. Before moving on to the data I present, I will explain the choices I made that affected the results of my data.
 
