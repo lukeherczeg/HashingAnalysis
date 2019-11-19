@@ -15,10 +15,9 @@ Open Addressing: I counted a collision each position that an item had to move un
 Separate Chaining: I counted a collision for each position in the linked list that the item was placed in.
 (In hindsight, it may have made for more concise data counting only 1 collision for insertion into the linked list.)
 	
-[![Build Status]()](https://travis-ci.org/bjorn/tiled)
-
-
 Separate Chaining: Graphs
+
+![alt text](https://i.imgur.com/JA7xl9b.png)]
 
 Separate Chaining: Discussion
 
