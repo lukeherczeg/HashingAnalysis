@@ -1,59 +1,24 @@
-COP3530: Data Structures
+### COP3530: Data Structures
 
 
-##Introduction
+### Introduction
 -------------------------------------------------------------------------------
 For this assignment, I decided to implement two different classes of hash tables, both in C++, one a templated version which was used for the open addressing part of the experiment, and one with the C++ list library to complete separate chaining. It was interesting seeing and getting a more significant understanding about the various strengths and weaknesses of each algorithm and collision resolution scheme. Before moving on to the data I present, I will explain the choices I made that affected the results of my data.
-##Sizes
+
+### Sizes
 -------------------------------------------------------------------------------
 I made the choice to use table sizes of 15-20-25 in that order, for each experiment, to keep the results consistent and analyze the efficiency of the algorithms at those sizes respectively.
-##Collision Counting
+### Collision Counting
 -------------------------------------------------------------------------------
 	Overall, I added and appended to total collisions to make for better data on the graph, rather than collisions only at each insertion.
 Open Addressing: I counted a collision each position that an item had to move until landing in an open space.
 Separate Chaining: I counted a collision for each position in the linked list that the item was placed in.
 (In hindsight, it may have made for more concise data counting only 1 collision for insertion into the linked list.)
 	
-[![Build Status](https://travis-ci.org/bjorn/tiled.svg?branch=master)](https://travis-ci.org/bjorn/tiled)
-
-
-
-
-
+[![Build Status]()](https://travis-ci.org/bjorn/tiled)
 
 
 Separate Chaining: Graphs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Separate Chaining: Discussion
 
@@ -68,37 +33,6 @@ Mid Square Hashing
 	I noticed something about the separate chaining using mid square hashing pretty early on which is not a problem for open addressing but certainly affects the collision count; for small table sizes, where the key squared won’t be more than 3 digits (or even 4 I believe), there are certain indices in the hash table which will NEVER be selected by the algorithm, because of a mathematical property of squaring the numbers that I didn’t explore in detail, but I took the modulus for specifically every value for table size 15 as a test (every key between 0 – 60(3 * tableSize)) and the indices 12, 13, and 14 were never a result. This actually means that it is impossible to hit a load factor of 1 with mid square hashing at low table values. I decided then, to cap the load factor at about .8 to get accurate data without infinite loops running. Upon a bit of research I’ve learned that it is actually much better to use mid square hashing for separate chaining on large table sizes (4 digit keys before squaring are more ideal). All things considered, the exponential nature of the collisions is also due to the way I decided to count the collisions, otherwise the largest amount for separate chaining would be around 100.	
 
 Open Addressing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Open Addressing: Discussion
 
